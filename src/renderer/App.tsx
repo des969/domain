@@ -1,4 +1,4 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
 import '@fontsource/roboto/300.css';
@@ -46,6 +46,9 @@ function Hello() {
 
 export default function App() {
   return (
-   <MainWindow/>
+    <BrowserRouter>
+      <MainWindow/>
+      </BrowserRouter>
+   
   );
 }
