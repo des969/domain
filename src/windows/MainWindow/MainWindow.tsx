@@ -16,7 +16,6 @@ type TreeItemType = {
   id: string;
   label: string;
   icon?: any;
-  link?:string;
 };
 
 const itemsSettings: TreeViewBaseItem<TreeItemType>[] = [
@@ -24,8 +23,8 @@ const itemsSettings: TreeViewBaseItem<TreeItemType>[] = [
     id: '',
     label: 'Настройки',
     children: [
-      { id: 'organisations', label: 'Организации', icon: <GroupsIcon />,link:'/settings/organizations' },
-      { id: 'persons', label: 'Персоны', icon: <PersonIcon />,link:'/settings/organizations' },
+      { id: 'organisations', label: 'Организации', icon: <GroupsIcon /> },
+      { id: 'persons', label: 'Персоны', icon: <PersonIcon /> },
     ],
   },
 ];

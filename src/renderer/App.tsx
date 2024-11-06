@@ -1,11 +1,11 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, RouterProvider } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import MainWindow from '../windows/MainWindow/MainWindow';
+import routes from '../router/routes';
 
 function Hello() {
   return (
@@ -45,10 +45,5 @@ function Hello() {
 }
 
 export default function App() {
-  return (
-    <BrowserRouter>
-      <MainWindow/>
-      </BrowserRouter>
-   
-  );
+  return <RouterProvider router={routes} />;
 }

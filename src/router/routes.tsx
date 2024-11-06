@@ -1,23 +1,44 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter } from 'react-router-dom';
-
-
-
+import MainLayout from '../layouts/MainLayout';
+import Organisations from '../components/Settings/Organisations';
 
 export default createBrowserRouter([
-    {
-        path:'/index.html',
-        element: <div>Hello world!</div>
-    },
-    {
-        path:'/settings/organizations',
-        element: <div>organizations</div>
+  {
+    path: '/index.html',
+    element: <MainLayout />,
+  },
+  {
+    path: '/settings',
+    children: [
+      { index: true, element: <MainLayout /> },
+      {
+        path: 'organisations',
+        element: (
+          <MainLayout>
+            <Organisations />
+          </MainLayout>
+        ),
+      },
+      {
+        path: 'persons',
+        element: <MainLayout> PERSONS </MainLayout>,
+      },
+    ],
+  },
 
-    },
-    {
-        path:'/settings/persons',
-        element: <div>persons</div>
+  {
+    path: '/sysdocs',
+    element: <MainLayout />,
+  },
+  {
+    path: '/documents',
+    element: <MainLayout />,
+  },
+  // {
+  //     path:'/settings/persons',
+  //     element: <div>persons</div>
 
-    }
+  // }
 ]);
