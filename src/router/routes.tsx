@@ -3,16 +3,18 @@ import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import Organisations from '../components/Settings/Organisations';
-
+import Settings from '../components/Settings/Settings';
 export default createBrowserRouter([
   {
     path: '/index.html',
     element: <MainLayout />,
   },
   {
-    path: '/settings',
+    path: 'settings',
     children: [
-      { index: true, element: <MainLayout /> },
+      { index: true, element:  <MainLayout>
+        <Settings />
+      </MainLayout> },
       {
         path: 'organisations',
         element: (

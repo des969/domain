@@ -17,23 +17,25 @@ const Organisations: React.FC = () => {
   const [addingRow, setAddRow] = React.useState(false);
   const [organisation, setOrganisation] = React.useState();
   const [note, setNote] = React.useState();
-  const db = new DB();
+
+
+  const refreshTable = () =>{
+    DB.getAll('organisations', (res: any) => {
+      setItems(res);
+    });
+  } 
   //todo get Organisation data from db
   React.useEffect(() => {
     // db.addItem('organisations', {
     //   "организация":"ООО Системы управления",
     //   "примечание": "Это где я работаю"
     // })
-    db.getAll('organisations', (res: any) => {
-      setItems(res);
-    });
+    refreshTable()
   }, []);
 
   console.log('items', items);
-  const removeRow = () => setNbRows((x) => Math.max(0, x - 1));
-  const addRow = () => {
-    setAddRow(!addingRow);
-  };
+ 
+
 
 
   const columns:GridColDef[] = [
@@ -64,10 +66,10 @@ const Organisations: React.FC = () => {
           </IconButton>
         </SearchField>
         <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-          <Button size="small" onClick={removeRow}>
+          <Button size="small" >
             Удалить записи
           </Button>
-          <Button size="small" onClick={addRow}>
+          <Button size="small" >
             {addingRow ? 'Сохранить' : 'Добавить запись'}
           </Button>
         </Stack>
@@ -106,10 +108,10 @@ const Organisations: React.FC = () => {
         <DataGrid
           rows={items}
           columns={columns}
-         
+          
          
           checkboxSelection
-          sx={{ border: 0 }}
+          sx={{ border: 0 , width:'100%' }}
         />
       </Grid>
     </Grid>
