@@ -14,7 +14,7 @@ const MainLayout: FC<Props> = ({children}) => {
   const location = useLocation();
 
   const onSelectTree = (url: string) => {
-    console.log('props', url);
+    
     navigate(url)
   };
   return (

@@ -9,12 +9,13 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, ipcRenderer } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import DB from './db'
+import OrganisationsDB from './DB/Organisations';
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -22,7 +23,7 @@ class AppUpdater {
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
-
+const db = new DB('','','')
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.on('ipc-example', async (event, arg) => {
@@ -129,6 +130,8 @@ app
   .whenReady()
   .then(() => {
     createWindow();
+   
+  
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
@@ -137,8 +140,30 @@ app
   })
   .catch(console.log);
 
-  // ipcMain.handle('mongodb-connect', async (event, ...args) => {
-  //   console.log('args', args);
-    
-   
-  // })
+
+  ipcMain.on('mongodb-connect',   async (event, ...arg) => {
+    console.log('args', arg);
+    db.host = arg[0]
+    db.user = arg[1]
+    db.password = arg[2]
+    db.connect().then((res)=>{
+      console.log('mongoose RES',res)
+      event.reply('mongodb-connect', true);
+    }).catch( (err)=>{
+      console.log('mongoose ERR',err)
+      event.reply('mongodb-connect', false);
+    })
+  })
+
+  ipcMain.on('mongodb-settings',   async (event, args) => { 
+      console.log('organisations', args[0]);
+     
+      switch(args[1].page){
+        case 'organisations': 
+        const db =  new OrganisationsDB(args[0])
+       const res = await db.find()
+       console.log('resOrg', res);
+       
+        break;
+      }
+   })

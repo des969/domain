@@ -14,8 +14,9 @@ class DB {
   }
 
  async connect(){
-  await mongoose.connect(`mongodb://${this.user}:${this.password}@${this.host}/domain`)
+  await mongoose.connect(`mongodb://${(this.user||this.password)?`${this.user}:${this.password}@`:''}${this.host}/domain`)
  }
+
 
 }
 

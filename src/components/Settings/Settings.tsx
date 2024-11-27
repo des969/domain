@@ -1,12 +1,10 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import Paper from '@mui/material/Paper';
 import { Grid2 } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { ipcRenderer } from 'electron';
 
 const BoxStyles = {
   p: 2,
@@ -22,15 +20,37 @@ const Settings: React.FC = () => {
   );
   const [connection, setConnection] = React.useState(false);
 
-  async function mongodbConnect() {
 
+
+  const connect = ()=>{
+    
+    window.electron.ipcRenderer.sendMessage('mongodb-connect', 
+      host,
+      user,
+      password,
+    );
+  }
+
+  const connectMongoDBHandler = () =>{
+    connect()
     
   }
 
-  
+
   React.useEffect(() => {
-   
-     ipcRenderer
+    window.electron.ipcRenderer.on('mongodb-connect',(connection)=>{
+      console.log('args', connection);
+      if(connection===true){
+        setConnection(true)
+      }else{
+        setConnection(false)
+      }
+    })
+    
+    
+    connect()
+
+
   }, []);
 
   return (
@@ -55,6 +75,7 @@ const Settings: React.FC = () => {
               onChange={(e) => {
                 setHost(e.target.value);
                 localStorage.setItem('host', e.target.value);
+                setConnection(false)
               }}
               value={host}
               id="host"
@@ -65,6 +86,7 @@ const Settings: React.FC = () => {
               onChange={(e) => {
                 setUser(e.target.value);
                 localStorage.setItem('user', e.target.value);
+                setConnection(false)
               }}
               value={user}
               id="user"
@@ -75,6 +97,7 @@ const Settings: React.FC = () => {
               onChange={(e) => {
                 setPassword(e.target.value);
                 localStorage.setItem('password', e.target.value);
+                setConnection(false)
               }}
               value={password}
               id="password"
@@ -83,7 +106,7 @@ const Settings: React.FC = () => {
             />
           </Box>
           <Box sx={BoxStyles}>
-            <Button disabled={connection} color="primary" variant="contained">
+            <Button disabled={connection} onClick={connectMongoDBHandler} color="primary" variant="contained">
               Соединиться
             </Button>
           </Box>

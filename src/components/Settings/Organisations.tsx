@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import DB from '../../main/db';
+import OrganisationsDB from './DB/Organisations';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,11 +18,13 @@ const Organisations: React.FC = () => {
   const [organisation, setOrganisation] = React.useState();
   const [note, setNote] = React.useState();
 
+  const DB = new OrganisationsDB()
 
   const refreshTable = () =>{
-    DB.getAll('organisations', (res: any) => {
-      setItems(res);
-    });
+    DB.getAll((res)=>{
+      console.log('organisations', res);
+      
+    })
   } 
   //todo get Organisation data from db
   React.useEffect(() => {

@@ -3,11 +3,15 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels = 'ipc-example';
-
+export type Channels2 = 'mongodb-connect';
 const electronHandler = {
   ipcRenderer: {
-    sendMessage(channel: Channels, ...args: unknown[]) {
+    sendMessage(channel: string, ...args: unknown[]) {
       ipcRenderer.send(channel, ...args);
+    },
+    
+    emit(name:string, ...args:unknown[]){
+      ipcRenderer.emit(name,...args)
     },
     on(channel: Channels, func: (...args: unknown[]) => void) {
       const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
